@@ -9,16 +9,13 @@
     var taskSchema = new Schema({
         _id: false, title: String, description: String, tags: Array
     });
-    var Task = mongoose.model('task', taskSchema);
-
+    var Task = mongoose.model('task', taskSchema,'Task');
     var router = express();
-
     var id;
-
-    mongoose.connect('mongodb://localhost/tasks', function (erorr)
-    {
-        if (erorr) {
-            console.log(erorr);
+    var configDB=require('../../config/database.js');
+    mongoose.createConnection(configDB.url+'/task',function(error){
+        if(error){
+            console.log(error);
         }
     });
 
