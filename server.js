@@ -2,6 +2,7 @@
 {
 
     'use strict';
+    var base64=require('./app/service/Base64.js');
     var express = require('express');
     var cors = require('cors');
     var mongoose = require('mongoose');
@@ -22,7 +23,7 @@
 
     var app = express();
     require('./config/passport')(passport);
-    //app.use(morgan('dev'));
+    app.use(morgan('dev'));
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
@@ -34,7 +35,8 @@
     app.use(passport.session());
     app.use(flash());
     app.use(cors());
-
+    console.log(base64.encode('Hello World'));
+    console.log(base64.decode('SGVsbG8gV29ybGQ='));
     require('./app/routes.js')(app,passport);
     app.listen(3000);
 })();

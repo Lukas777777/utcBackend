@@ -72,10 +72,12 @@
             user.local.password = undefined;
             user.save(function (err)
             {
+                if(err){
+                    console.log(err);
+                }
                 res.redirect('/profile');
             });
         });
-
         app.use('/api/task', taskManager);
         app.use('/api/user', userManager);
     };
