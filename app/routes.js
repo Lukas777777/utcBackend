@@ -3,7 +3,7 @@
     'use strict';
     module.exports = function (app, passport)
     {
-        var taskManager = require('./REST/taskManager.js');
+        var taskManager = require('./REST/task.endpoint.js');
         var userManager = require('./REST/userManager.js');
 
         function isLoggedIn(request, response, next)

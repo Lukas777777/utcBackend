@@ -2,7 +2,7 @@
 {
     'use strict';
     var LocalStrategy = require('passport-local').Strategy;
-    var User = require('../app/models/user');
+    var User = require('../app/DAO/userDAO');
     module.exports = function (passport)
     {
         passport.serializeUser(function (user, done)

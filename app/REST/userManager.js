@@ -3,7 +3,7 @@
     var express = require('express');
     var bodyParser = require('body-parser');
     var mongoose = require('mongoose');
-    var User =require('../models/user.js');
+    var User =require('../DAO/userDAO.js');
     var router = express();
     var id;
     var configDB=require('../../config/database.js');
