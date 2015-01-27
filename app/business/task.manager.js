@@ -2,7 +2,6 @@
 {
     'use strict';
     var taskDAO = require('../DAO/taskDAO.js');
-    var Task = require('../DAO/taskDAO.js');
     var mongoose = require('mongoose');
     var configDB = require('../../config/database.js');
     mongoose.createConnection(configDB.url + '/tasks', function (error)

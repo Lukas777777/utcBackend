@@ -4,7 +4,6 @@
     var express = require('express');
     var bodyParser = require('body-parser');
     var taskManager = require('../business/task.manager');
-    var Task = require('../DAO/taskDAO.js');
     var router = express();
 
     router.use(bodyParser.urlencoded({extended: false}));

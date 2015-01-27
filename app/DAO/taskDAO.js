@@ -1,7 +1,7 @@
 (function ()
 {
     'use strict';
-    var q = require('q');
+    var Q = require('q');
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
     var taskSchema = new Schema({
@@ -11,17 +11,21 @@
     module.exports = {
         search: function (query)
         {
-            var defer = q.defer();
+            var defer = Q.defer();
             try {
                 var pattern = new RegExp('^.*' + query.query + '.*');
                 pattern = query.query ? pattern : '';
 
                 var result = Model.find({
-                    $or: [{'title': {'$regex': pattern, $options: 'i'}}, {'description': {'$regex': pattern, $options: 'i'}}]
+                    $or: [{'title': {'$regex': pattern, $options: 'i'}},
+                          {'description': {'$regex': pattern, $options: 'i'}},
+                          {'tags.text': {'$regex': pattern, $options: 'i'}}]
                 }).count().exec().then(function (totalCount)
                 {
                     return Model.find({
-                        $or: [{'title': {'$regex': pattern, $options: 'i'}}, {'description': {'$regex': pattern, $options: 'i'}}]
+                        $or: [{'title': {'$regex': pattern, $options: 'i'}},
+                              {'description': {'$regex': pattern, $options: 'i'}},
+                              {'tags.text': {'$regex': pattern, $options: 'i'}}]
                     }, null, query).exec().then(function (data)
                     {
                         return {results: data, total: totalCount};
@@ -34,7 +38,7 @@
             return defer.promise;
         }, createNewOrUpdate: function (task)
         {
-            var defer = q.defer();
+            var defer = Q.defer();
             if (!task.id) {
                 try {
                     Model.count().exec().then(function (allTasks)
@@ -71,7 +75,7 @@
                         assignTo: task.assignTo,
                         tags: task.assignTo
                     };
-                    Model.where('_id', task._id).findOneAndUpdate(update).exec().then(function (result)
+                    Model.where('_id').equals(task._id).findOneAndUpdate(update).exec().then(function (result)
                     {
                         defer.resolve(result);
                     });
@@ -82,7 +86,7 @@
             }
         }, getDetail: function (id)
         {
-            var defer = q.defer();
+            var defer = Q.defer();
             try {
                 Model.findById(id - 1).exec().then(function (result)
                 {
