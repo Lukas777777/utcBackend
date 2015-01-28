@@ -1,14 +1,16 @@
-(function(){
+(function ()
+{
     'use strict';
     var express = require('express');
     var bodyParser = require('body-parser');
     var mongoose = require('mongoose');
-    var User =require('../DAO/userDAO.js');
+    var User = require('../DAO/userDAO.js');
     var router = express();
     var id;
-    var configDB=require('../../config/database.js');
-    mongoose.createConnection(configDB.url+'/users',function(error){
-        if(error){
+    var configDB = require('../../config/database.js');
+    mongoose.createConnection(configDB.url + '/users', function (error)
+    {
+        if (error) {
             console.log(error);
         }
     });
@@ -18,9 +20,9 @@
     {
         User.find(null, null, {skip: request.query.from, limit: request.query.size}, function (err, data)
         {
-            id=data.length+1;
+            id = data.length + 1;
             response.status(200).send(data);
         });
     });
-    module.exports=router;
+    module.exports = router;
 })();

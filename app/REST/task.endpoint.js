@@ -11,7 +11,7 @@
 
     router.route('/').get(function (request, response)
     {
-        taskManager.search({from: request.query.from, size: request.query.size,query:request.query.query}).then(function (result)
+        taskManager.search({from: request.query.from, size: request.query.size, query: request.query.query}).then(function (result)
         {
             response.status(200).send(result);
         }).catch(function (error)
@@ -25,19 +25,30 @@
             response.status(200).send(request.body);
         }).catch(function (error)
         {
+            console.log(error);
             response.status(500).send(error);
         });
 
     });
-    router.route('/:id').get(function (request, response)
-    {
-        taskManager.getDetail(request.params.id).then(function (data)
-        {
-            response.status(200).send(data);
-        }).catch(function (error)
-        {
-            response.status(500).send(error);
-        });
-    });
+    router.route('/:id')
+            .get(function (request, response)
+            {
+                taskManager.getDetail(request.params.id).then(function (data)
+                {
+                    response.status(200).send(data);
+                }).catch(function (error)
+                {
+                    response.status(500).send(error);
+                });
+            })
+            .delete(function (request, response)
+            {
+                taskManager.deleteTask(request.params.id).then(function(){
+                    response.status(200).send();
+                }).catch(function(){
+                    response.status(404);
+                });
+
+            });
     module.exports = router;
 })();

@@ -2,14 +2,7 @@
 {
     'use strict';
     var taskDAO = require('../DAO/taskDAO.js');
-    var mongoose = require('mongoose');
-    var configDB = require('../../config/database.js');
-    mongoose.createConnection(configDB.url + '/tasks', function (error)
-    {
-        if (error) {
-            console.log(error);
-        }
-    });
+
     //function toThatRoleView(task) {
     //    return {
     //        id:task.id,
@@ -34,8 +27,11 @@
     {
         return taskDAO.getDetail(id);
     }
+    function deleteTask(id){
+        return taskDAO.deleteTask(id);
+    }
 
     module.exports = {
-        search: search, createNewOrUpdate: createNewOrUpdate, getDetail: getDetail
+        search: search, createNewOrUpdate: createNewOrUpdate, getDetail: getDetail,deleteTask:deleteTask
     };
 })();
