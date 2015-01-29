@@ -1,18 +1,44 @@
 (function ()
 {
     'use strict';
+    var Q = require('q');
     var mongoose = require('mongoose');
-    var bcrypt = require('bcrypt-nodejs');
-    var userSchema = mongoose.Schema({
-        _id: false, email: String, password: String
+    var configDB = require('../../config/database.js');
+    var Schema = mongoose.Schema;
+    var tokenDAO = require('./tokenDAO');
+    mongoose.createConnection(configDB.url + '/users', function (error)
+    {
+        if (error) {
+            console.log(error);
+        }
     });
-    userSchema.methods.generateHash = function (password)
+    var userSchema = new Schema({
+        email: String, password: String
+    });
+    var ModelUser = mongoose.model('User', userSchema);
+    function authenticate(user)
     {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+        var defer = Q.defer();
+        try {
+            ModelUser.findOne({email: user.email, password: user.password}).exec().then(function (data)
+            {
+                if (data) {
+                    tokenDAO.addTokenAndSet(data._id, new Date().getTime()).then(function (result)
+                    {
+                        return defer.resolve(result);
+                    });
+                }else{
+                    return defer.reject(data);
+                }
+
+            });
+        } catch (error) {
+            defer.reject(error);
+        }
+        return defer.promise;
+    }
+
+    module.exports = {
+        authenticate: authenticate
     };
-    userSchema.methods.validPassword = function (password)
-    {
-        return bcrypt.compareSync(password, this.local.password);
-    };
-    module.exports = mongoose.model('User', userSchema);
 })();

@@ -1,14 +1,7 @@
 (function ()
 {
     'use strict';
-    var taskDAO = require('../DAO/taskDAO.js');
-
-    //function toThatRoleView(task) {
-    //    return {
-    //        id:task.id,
-    //        name:task.name
-    //    };
-    //}
+    var taskDAO = require('../DAO/taskDAO');
     function search(query)
     {
         query.skip = query.from;

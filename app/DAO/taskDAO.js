@@ -29,7 +29,6 @@
             try {
                 var pattern = new RegExp('^.*' + query.query + '.*');
                 pattern = query.query ? pattern : '';
-
                 var search = {
                     $or: [{'title': {'$regex': pattern, $options: 'i'}},
                           {'description': {'$regex': pattern, $options: 'i'}},
@@ -92,10 +91,9 @@
             return defer.promise;
         }, deleteTask: function (id)
         {
-            console.log(id);
             var defer = Q.defer();
             try {
-                Model.where().findOneAndRemove({_id: id}).exec().then(function (result)
+                Model.findOneAndRemove({_id: id}).exec().then(function ()
                 {
                     defer.resolve();
                 });

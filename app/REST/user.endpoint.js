@@ -3,26 +3,33 @@
     'use strict';
     var express = require('express');
     var bodyParser = require('body-parser');
-    var mongoose = require('mongoose');
-    var User = require('../DAO/userDAO.js');
+    var userManager = require('../business/user.manager');
+    var tokenManager = require('../business/token.manager');
     var router = express();
-    var id;
-    var configDB = require('../../config/database.js');
-    mongoose.createConnection(configDB.url + '/users', function (error)
-    {
-        if (error) {
-            console.log(error);
-        }
-    });
     router.use(bodyParser.urlencoded({extended: false}));
     router.use(bodyParser.json());
-    router.route('/').get(function (request, response)
+    router.route('/me/optional').get(function (request, response)
     {
-        User.find(null, null, {skip: request.query.from, limit: request.query.size}, function (err, data)
-        {
-            id = data.length + 1;
-            response.status(200).send(data);
+        tokenManager.getMeOrNull(request.headers.authorization).then(function(result){
+            if(result){
+                response.status(200).send(result);
+            }else{
+                response.status(401).send({});
+            }
+        });
+        response.status(200).send({});
+    });
+    router.route('/auth').post(function (request, response)
+    {
+        userManager.authenticate(request.body).then(function(result){
+           response.status(200).send(result);
+        }).catch(function(){
+            response.status(401).send({});
         });
     });
     module.exports = router;
 })();
+/*
+* NTRjOTNjZDZkMDYxNTVjMDQzNjBiMTA1
+* NTRjOTNjZDZkMDYxNTVjMDQzNjBiMTA1
+* */
