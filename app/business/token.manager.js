@@ -2,7 +2,8 @@
     'use strict';
     var tokenDAO = require('../DAO/tokenDAO');
 
-    function getMeOrNull(token){
+    function get(token){
+        //id
         return tokenDAO.getMeOrNull(token);
     }
 
@@ -10,7 +11,7 @@
 
     }
     module.exports={
-        getMeOrNull:getMeOrNull,
+        get:get,
         getMe:getMe
     };
 })();

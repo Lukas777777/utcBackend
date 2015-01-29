@@ -13,21 +13,22 @@
         }
     });
     var userSchema = new Schema({
-        email: String, password: String
+        email: String, password: String, role: Array
     });
     var ModelUser = mongoose.model('User', userSchema);
-    function authenticate(user)
+
+    function authenticate(email,password)
     {
         var defer = Q.defer();
         try {
-            ModelUser.findOne({email: user.email, password: user.password}).exec().then(function (data)
+            ModelUser.findOne({email: email, password: password}).exec().then(function (data)
             {
                 if (data) {
                     tokenDAO.addTokenAndSet(data._id, new Date().getTime()).then(function (result)
                     {
                         return defer.resolve(result);
                     });
-                }else{
+                } else {
                     return defer.reject(data);
                 }
 
@@ -38,7 +39,21 @@
         return defer.promise;
     }
 
+    function get(idUser)
+    {
+        var defer = Q.defer();
+        try {
+            ModelUser.findById(idUser).exec().then(function (result)
+            {
+                defer.resolve(result);
+            });
+        } catch (error) {
+            defer.reject(error);
+        }
+        return defer.promise;
+    }
+
     module.exports = {
-        authenticate: authenticate
+        authenticate: authenticate, get: get
     };
 })();

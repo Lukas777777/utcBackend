@@ -46,8 +46,8 @@
                     });
                 });
                 defer.resolve(result);
-            } catch (e) {
-                defer.reject(e);
+            } catch (error) {
+                defer.reject(error);
             }
             return defer.promise;
         }, createNewOrUpdate: function (task)

@@ -5,12 +5,14 @@
     var express = require('express');
     var cors = require('cors');
     var mongoose = require('mongoose');
-
-    var flash = require('connect-flash');
     var morgan = require('morgan');
     var bodyParser = require('body-parser');
     var configDB = require('./config/database.js');
-
+    var app = module.exports = express();
+    app.use(morgan('dev'));
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json());
+    app.use(cors());
     mongoose.connect(configDB.url, function (error)
     {
         if (error) {
@@ -18,15 +20,6 @@
         }
     });
 
-    var app = express();
-
-    app.use(morgan('dev'));
-    app.use(bodyParser.urlencoded({extended: false}));
-    app.use(bodyParser.json());
-    app.set('view engine', 'ejs');
-
-    app.use(flash());
-    app.use(cors());
-    require('./app/routes.js')(app);
+    require('./app/REST/routes.js');
     app.listen(process.env.PORT || 3000);
 })();

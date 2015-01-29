@@ -4,6 +4,7 @@
     var Q = require('q');
     var mongoose = require('mongoose');
     var configDB = require('../../config/database.js');
+
     mongoose.createConnection(configDB.url + '/tokens', function (error)
     {
         if (error) {
@@ -16,20 +17,32 @@
     });
     var Model = mongoose.model('tokens', tokenSchema);
 
-    function addTokenAndSet(userId, data)
+    function authenticate(userId, data)
     {
         var defer = Q.defer();
         try {
-            new Model({userId: userId, data: data}).save(function (error)
+            Model.findOne({userId: userId}).exec().then(function (result)
             {
-                if (error) {
-                    defer.reject(error);
+                if (result&&0!==result.length) {
+                    result.data = new Date().getTime();
+                    Model.findByIdAndUpdate({_id:result._id},{data:result.data}).exec().then(function (result)
+                    {
+                        defer.resolve({token: result._id.valueOf()});
+                    });
+                } else {
+                    new Model({userId: userId, data: data}).save(function (error)
+                    {
+                        if (error) {
+                            defer.reject(error);
+                        }
+                        Model.findOne({userId: userId, data: data}).exec().then(function (result)
+                        {
+                            defer.resolve({token: result._id.valueOf()});
+                        });
+                    });
                 }
-                Model.findOne({userId: userId, data: data}).exec().then(function (result)
-                {
-                    defer.resolve({token: result._id});
-                });
             });
+
         } catch (error) {
             defer.reject(error);
         }
@@ -40,13 +53,18 @@
     {
         var defer = Q.defer();
         try {
-            var tmp = new Buffer(idToken, 'base64').toString('ascii');
+            var tmp;
+            if (idToken) {
+                idToken=idToken.slice(6);
+                tmp = new Buffer(idToken, 'base64').toString('ascii');
+            }
             Model.findById(tmp).exec().then(function (result)
             {
                 if (result) {
-                    return defer.resolve(idToken);
+                    //return id user
+                    return defer.resolve(result.userId.valueOf());
                 } else {
-                    return defer.resolve(401);
+                    return defer.resolve('NOT_FOUND');
                 }
             });
         } catch (error) {
@@ -66,6 +84,6 @@
     }
 
     module.exports = {
-        addTokenAndSet: addTokenAndSet, getMeOrNull: getMeOrNull, updateToken: updateToken, deleteOldTokens: deleteOldTokens
+        addTokenAndSet: authenticate, getMeOrNull: getMeOrNull, updateToken: updateToken, deleteOldTokens: deleteOldTokens
     };
 })();
