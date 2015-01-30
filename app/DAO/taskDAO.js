@@ -12,7 +12,7 @@
     });
     var Schema = mongoose.Schema;
     var taskSchema = new Schema({
-        title: String, description: String, repositoryUrl: String, branchName: String, assignTo: Array, tags: Array
+        title: String, description: String, repositoryUrl: String, branchName: String, tags: Array
     });
     var Model = mongoose.model('task', taskSchema);
 
@@ -22,6 +22,7 @@
         delete element._doc._id;
         return element._doc;
     }
+
     module.exports = {
         search: function (query)
         {
@@ -100,6 +101,16 @@
             } catch (error) {
                 defer.reject(error);
             }
+            return defer.promise;
+        }, getBranch: function (url)
+        {
+            var defer = Q.defer();
+            defer.resolve([]);
+            return defer.promise;
+        }, getTags: function (search)
+        {
+            var defer = Q.defer();
+            defer.resolve([]);
             return defer.promise;
         }
     };

@@ -17,6 +17,8 @@
     }
 
     router.use(authenticate);
-    router.route('/api/task', require('./task.endpoint'));
-    router.route('/api/user', require('./user.endpoint'));
+    require('./task.endpoint');
+    require('./test.endpoint');
+    require('./user.endpoint');
+    require('./trial.endpoint');
 })();

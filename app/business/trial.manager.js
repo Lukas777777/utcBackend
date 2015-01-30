@@ -1,7 +1,7 @@
 (function ()
 {
     'use strict';
-    var taskDAO = require('../DAO/taskDAO');
+    var trialDAO = require('../DAO/trialDAO');
     var security = require('./security');
 
     function create(context)
@@ -17,37 +17,27 @@
                 query.limit = query.size;
                 delete query.from;
                 delete query.size;
-                return taskDAO.search(query);
+                return trialDAO.search(query);
             });
         }
 
         function createNewOrUpdate(task)
         {
-            return taskDAO.createNewOrUpdate(task);
+            //return taskDAO.createNewOrUpdate(task);
         }
 
         function getDetail(id)
         {
-            return taskDAO.getDetail(id);
+            //return taskDAO.getDetail(id);
         }
 
         function deleteTask(id)
         {
-            return taskDAO.deleteTask(id);
-        }
-
-        function getBranch(url)
-        {
-            return taskDAO.getBranch(url);
-        }
-
-        function getTags(query)
-        {
-            return taskDAO.getTags(query);
+            //return taskDAO.deleteTask(id);
         }
 
         return {
-            search: search, createNewOrUpdate: createNewOrUpdate, getDetail: getDetail, deleteTask: deleteTask, getBranch: getBranch, getTags: getTags
+            search: search, createNewOrUpdate: createNewOrUpdate, getDetail: getDetail, deleteTask: deleteTask
         };
 
     }

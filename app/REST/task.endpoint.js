@@ -37,11 +37,32 @@
     {
         business.getTaskManager(request).deleteTask(request.params.id).then(function ()
         {
-            response.status(200).send();
+            response.sendStatus(200);
         }).catch(function ()
         {
-            response.status(404);
+            response.sendStatus(404);
         });
 
     });
+    router.route('/api/task/tags').get(function (request, response)
+    {
+        business.getTaskManager(request).getTags(request.query.query).then(function (result)
+        {
+            response.status(200).send(result);
+        }).catch(function (error)
+        {
+            response(500).send(error);
+        });
+    });
+    router.route('/api/task/branches/:b').get(function (request, response)
+    {
+        business.getTaskManager(request).getBranch(request.params.b).then(function (result)
+        {
+            response.status(200).send(result);
+        }).catch(function (error)
+        {
+            response(500).send(error);
+        });
+    });
+
 })();

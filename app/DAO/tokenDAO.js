@@ -23,9 +23,9 @@
         try {
             Model.findOne({userId: userId}).exec().then(function (result)
             {
-                if (result&&0!==result.length) {
+                if (result && 0 !== result.length) {
                     result.data = new Date().getTime();
-                    Model.findByIdAndUpdate({_id:result._id},{data:result.data}).exec().then(function (result)
+                    Model.findByIdAndUpdate({_id: result._id}, {data: result.data}).exec().then(function (result)
                     {
                         defer.resolve({token: result._id.valueOf()});
                     });
@@ -55,7 +55,7 @@
         try {
             var tmp;
             if (idToken) {
-                idToken=idToken.slice(6);
+                idToken = idToken.slice(6);
                 tmp = new Buffer(idToken, 'base64').toString('ascii');
             }
             Model.findById(tmp).exec().then(function (result)

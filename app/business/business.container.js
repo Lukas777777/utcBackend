@@ -4,6 +4,8 @@
 
     var taskManager = require('./task.manager');
     var tokenManager = require('./token.manager');
+    var testManager = require('./test.manager');
+    var trialManager = require('./trial.manager');
 
     function getContext(request)
     {
@@ -21,6 +23,8 @@
 
     module.exports = {
         getTaskManager: getter(taskManager),
-        getTokenManager: getter(tokenManager)
+        getTokenManager: getter(tokenManager),
+        getTestManager: getter(testManager),
+        getTrialManager: getter(trialManager)
     };
 })();

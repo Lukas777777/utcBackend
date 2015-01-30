@@ -1,17 +1,21 @@
-(function(){
+(function ()
+{
     'use strict';
     var tokenDAO = require('../DAO/tokenDAO');
 
-    function get(token){
+    function get(token)
+    {
         //id
         return tokenDAO.getMeOrNull(token);
     }
 
-    function getMe(){
+    function getMe()
+    {
 
     }
-    module.exports={
-        get:get,
-        getMe:getMe
+
+    module.exports = {
+        get: get,
+        getMe: getMe
     };
 })();

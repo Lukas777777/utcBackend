@@ -2,6 +2,7 @@
 {
     'use strict';
     var keyStr = 'ABCDEFGHIJKLMNOP' + 'QRSTUVWXYZabcdef' + 'ghijklmnopqrstuv' + 'wxyz0123456789+/' + '=';
+
     function encode(input)
     {
         var output = '';

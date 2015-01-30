@@ -4,9 +4,9 @@
     var userDAO = require('../DAO/userDAO');
     var tokenManager = require('./token.manager');
 
-    function authenticate(email,password)
+    function authenticate(email, password)
     {
-        return userDAO.authenticate(email,password);
+        return userDAO.authenticate(email, password);
     }
 
     function getUserByToken(token)

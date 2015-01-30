@@ -17,7 +17,7 @@
     });
     var ModelUser = mongoose.model('User', userSchema);
 
-    function authenticate(email,password)
+    function authenticate(email, password)
     {
         var defer = Q.defer();
         try {
