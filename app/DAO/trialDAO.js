@@ -3,7 +3,7 @@
     'use strict';
     var Q = require('q');
     var mongoose = require('mongoose');
-    var configDB = require('../../config/database.js');
+    var configDB = require('../config/database.js');
     mongoose.createConnection(configDB.url + 'trial', function (error)
     {
         if (error) {

@@ -3,7 +3,7 @@
     'use strict';
     var Q = require('q');
     var mongoose = require('mongoose');
-    var configDB = require('../../config/database.js');
+    var configDB = require('../config/database.js');
 
     mongoose.createConnection(configDB.url + '/tokens', function (error)
     {
@@ -58,13 +58,16 @@
                 idToken = idToken.slice(6);
                 tmp = new Buffer(idToken, 'base64').toString('ascii');
             }
-            Model.findById(tmp).exec().then(function (result)
+            Model.findById(tmp,function(error){
+               if(error){
+                   defer.reject(error);
+               }
+            }).exec().then(function (result)
             {
                 if (result) {
-                    //return id user
                     return defer.resolve(result.userId.valueOf());
                 } else {
-                    return defer.resolve('NOT_FOUND');
+                    return defer.reject('NOT_FOUND');
                 }
             });
         } catch (error) {

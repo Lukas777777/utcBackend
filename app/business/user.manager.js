@@ -16,8 +16,11 @@
             return userDAO.get(idUser);
         });
     }
+    function checkUser(user){
+        return userDAO.checkUser(user);
+    }
 
     module.exports = {
-        authenticate: authenticate, getUserByToken: getUserByToken
+        authenticate: authenticate, getUserByToken: getUserByToken,checkUser:checkUser
     };
 })();

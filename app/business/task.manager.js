@@ -23,17 +23,28 @@
 
         function createNewOrUpdate(task)
         {
-            return taskDAO.createNewOrUpdate(task);
+
+            return security.isAuthenticated(context).then(function ()
+            {
+                return taskDAO.createNewOrUpdate(task);
+            });
         }
 
         function getDetail(id)
         {
-            return taskDAO.getDetail(id);
+            return security.isAuthenticated(context).then(function ()
+            {
+                return taskDAO.getDetail(id);
+            });
         }
 
         function deleteTask(id)
         {
-            return taskDAO.deleteTask(id);
+
+            return security.isAuthenticated(context).then(function ()
+            {
+                return taskDAO.deleteTask(id);
+            });
         }
 
         function getBranch(url)
@@ -43,7 +54,11 @@
 
         function getTags(query)
         {
-            return taskDAO.getTags(query);
+
+            return security.isAuthenticated(context).then(function ()
+            {
+                return taskDAO.getTags(query);
+            });
         }
 
         return {

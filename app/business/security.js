@@ -4,14 +4,18 @@
 
     var Q = require('q');
     var _ = require('underscore');
-
+    var userManager=require('./user.manager');
     function isAuthenticated(context)
     {
         var defer = Q.defer();
         if (!context || !context.user) {
             defer.reject();
         } else {
-            defer.resolve();
+            userManager.checkUser(context.user).then(function(result){
+                defer.resolve(result);
+            }).catch(function(result){
+                defer.reject(result);
+            });
         }
         return defer.promise;
     }

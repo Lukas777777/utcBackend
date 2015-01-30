@@ -3,7 +3,7 @@
     'use strict';
     var Q = require('q');
     var mongoose = require('mongoose');
-    var configDB = require('../../config/database.js');
+    var configDB = require('../config/database.js');
     var Schema = mongoose.Schema;
     var tokenDAO = require('./tokenDAO');
     mongoose.createConnection(configDB.url + '/users', function (error)
@@ -52,8 +52,22 @@
         }
         return defer.promise;
     }
-
+    function checkUser(user){
+        var defer = Q.defer();
+        try{
+            ModelUser.findOne({email:user.email,password:user.password}).exec().then(function(result){
+               if(result){
+                   defer.resolve();
+               }else{
+                   defer.reject('User NOT exist');
+               }
+            });
+        }catch(error){
+            defer.reject(error);
+        }
+        return defer.promise;
+    }
     module.exports = {
-        authenticate: authenticate, get: get
+        authenticate: authenticate, get: get,checkUser:checkUser
     };
 })();

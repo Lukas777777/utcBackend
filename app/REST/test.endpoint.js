@@ -2,7 +2,7 @@
 {
     'use strict';
     var business = require('../business/business.container');
-    var router = require('../../server');
+    var router = require('../server');
     router.route('/api/test').get(function (request, response)
     {
         var query = {from: request.query.from, size: request.query.size, query: request.query.query};
@@ -48,5 +48,5 @@
             response.status(500).send(error);
         });
     });
-
+    module.exports=router;
 })();

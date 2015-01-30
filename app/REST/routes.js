@@ -2,7 +2,7 @@
 {
     'use strict';
     var userManager = require('../business/user.manager');
-    var router = require('../../server');
+    var router = require('../server');
 
     function authenticate(request, response, next)
     {

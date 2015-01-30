@@ -1,21 +1,22 @@
 {
   "name": "NodeJS",
   "version": "0.0.1",
-  "devDependencies": {
-    "express": "4.11.1",
-    "cors": "2.5.3",
-    "mongoose": "3.8.22",
+  "dependencies": {
     "body-parser": "1.10.2",
+    "cors": "2.5.3",
+    "express": "4.11.1",
+    "jasmine-node": "^1.14.5",
+    "mongoose": "3.8.22",
     "morgan": "1.5.1",
-    "q": "1.1.2"
-  },
-  "scripts": {
-    "nodemon": "nodemon server.js"
+    "q": "1.1.2",
+    "supertest": "^0.15.0",
+    "underscore": "^1.7.0"
   },
   "engines": {
     "node": ">=0.10.30"
   },
-  "dependencies": {
-    "underscore": "^1.7.0"
+  "scripts": {
+    "test": "jasmine-node spec/*.spec.js --autotest",
+    "nodemon": "nodemon app/server.js"
   }
 }
